@@ -17,11 +17,6 @@
 
 over "Render"
 {
-    over "Settings"
-    {
-        int ty:convergedSamplesPerPixel = 256
-    }
-
     over "Product"
     {
         token productName = "rect-light-illuminance-texture.exr"

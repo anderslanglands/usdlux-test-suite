@@ -1,0 +1,12 @@
+[suite]
+name = "physlight"
+
+[render]
+output_pattern = "{path}.exr"
+
+[reference]
+dir = "reference"
+pattern = "{path}.exr"
+missing = "fail"
+
+[comparison]

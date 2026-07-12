@@ -1,0 +1,49 @@
+#usda 1.0
+(
+    customLayerData = {
+        string doc = "Tests that a textured RectLight preserves its authored photometric power. The Qwantani HDRI is applied as the rect emission texture while photometric:power is 50 lumens. The texture should redistribute and tint emission across the rectangle, but its mean emitted luminance must be normalized so the total emitted power matches the authored 50-lumen target."
+    }
+    defaultPrim = "World"
+    metersPerUnit = 0.01
+    renderSettingsPrimPath = "/Render/Settings"
+    subLayers = [
+        @./_assets/render_512.usda@,
+        @./_assets/materials.usda@,
+        @./_assets/camera.usda@,
+        @./_assets/floor_plane.usda@
+    ]
+    upAxis = "Y"
+)
+
+over "Render"
+{
+    over "Settings"
+    {
+        int ty:convergedSamplesPerPixel = 256
+    }
+
+    over "Product"
+    {
+        token productName = "rect-light-power-texture.exr"
+    }
+}
+
+over "World"
+{
+    def RectLight "RectLight" (
+        prepend apiSchemas = ["ShapingAPI", "PhysicalLightIlluminantAPI", "PhotometricAreaLightAPI"]
+    )
+    {
+        float3[] extent = [(-50, -50, -0), (50, 50, 0)]
+        float inputs:width = 5
+        float inputs:height = 5
+        float inputs:intensity = 15000
+        float inputs:shaping:cone:angle = 180
+        asset inputs:texture:file = @./_assets/umbrella.exr@
+        float photometric:power = 10
+        double3 xformOp:rotateXYZ = (-90, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 200, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+    }
+}

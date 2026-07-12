@@ -1,0 +1,31 @@
+[goldeneye]
+output_root = "_output"
+
+[render]
+renderer = "typhoon"
+output_pattern = "{path}.exr"
+
+[renderers.typhoon]
+command = [
+    "pixi", "run",
+    "--manifest-path", "../openusd-omniverse/pixi.toml",
+    "--clean-env",
+  "usdrender",
+  "--complexity", "high",
+  "--renderer", "Embree",
+  "--disableCameraLight",
+  "{usd_path}",
+  "--outputRoot", "{suite_output_root}",
+]
+
+[renderers.typhoon-physlight]
+command = [
+    "pixi", "run",
+    "--manifest-path", "../openusd-omniverse-typhoon-physical-lighting/pixi.toml",
+    "--clean-env",
+    "usdrender", "{usd_path}",
+    "--outputRoot", "{suite_output_root}",
+    "--disableCameraLight",
+    "--complexity", "high",
+    "--renderer", "Embree",
+]
